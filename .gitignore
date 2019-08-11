@@ -1,0 +1,3 @@
+chef_env_rsa*
+*.log
+.vagrant
