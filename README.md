@@ -7,10 +7,10 @@ Create test lab which can be used to play around with MOSE and Chef.
 You must download and install the following for this environment to work:
 * [Vagrant](https://www.vagrantup.com/downloads.html)
 
-## Lab Build Instructions
+## Vagrant Lab Build Instructions
 To create an environment with a Chef Workstation and a Chef Server that controls multiple agents, run the following command:
 ```
-make build && make run
+cd vagrant && make build && make run
 ```
 To run MOSE against the chef workstation:
 
