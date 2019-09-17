@@ -18,8 +18,8 @@ Vagrant.configure("2") do |config|
       sed -ri 's/^#?PasswordAuthentication\s+.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
       sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config
 
-      wget https://packages.chef.io/files/current/chef-server/12.19.29/ubuntu/18.04/chef-server-core_12.19.29-1_amd64.deb
-      dpkg -i chef-server-core_12.19.29-1_amd64.deb
+      wget https://packages.chef.io/files/stable/chef-server/12.19.31/ubuntu/18.04/chef-server-core_12.19.31-1_amd64.deb 
+      dpkg -i chef-server-core_12.19.31-1_amd64.deb
       chef-server-ctl reconfigure
 
       # Install the management console
