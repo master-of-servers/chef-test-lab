@@ -1,30 +1,51 @@
 version: '3'
 services:
   chef-server:
+    build:
+      context: ./chef-server
+      dockerfile: Dockerfile
     # TODO: Add script for ssh
-    image: cbuisson/chef-server 
-    container_name: basic-chef-server
+    #image: cbuisson/chef-server 
     hostname: chefserver.demo.com
+    container_name: basic-chef-server
+    stdin_open: true
+    tty: true
     ports:
       - "443:443"
     networks:
       basic-chef-net:
-        ipv4_address: 172.50.0.2
-        extra_hosts:
-          - 'chefagent.demo.com:172.50.0.3'
+        ipv4_address: 172.51.0.2
+    extra_hosts:
+      - 'chefagent.demo.com:172.51.0.4'
 
   chef-agent:
     build:
       context: ./chef-agent
       dockerfile: Dockerfile
     hostname: chefagent.demo.com
+    container_name: chef-agent
     stdin_open: true
     tty: true
     networks:
       basic-chef-net:
-        ipv4_address: 172.50.0.3
-      extra_hosts:
-        - 'chefserver.demo.com:172.50.0.2'
+        ipv4_address: 172.51.0.4
+    extra_hosts:
+      - 'chefserver.demo.com:172.51.0.2'
+
+  chef-workstation:
+    build:
+      context: ./chef-workstation
+      dockerfile: Dockerfile
+    hostname: chefworkstation.demo.com
+    container_name: basic-chef-workstation
+    stdin_open: true
+    tty: true
+    networks:
+      basic-chef-net:
+        ipv4_address: 172.51.0.3
+    extra_hosts:
+      - 'chefagent.demo.com:172.51.0.4'
+      - 'chefserver.demo.com:172.51.0.2'
 
 networks:
   basic-chef-net:
@@ -32,4 +53,4 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.50.0.0/24
+        - subnet: 172.51.0.0/24
