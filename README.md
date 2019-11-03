@@ -1,7 +1,7 @@
 # chef-test-lab
-Create test lab which can be used to play around with MOSE and Chef.
+Used to create a test lab that can be used to work with MOSE and Chef.
 
-**Warning, take heed: This lab should be run in a controlled environment, as it contains vulnerable assets.**
+**Warning, take heed: This lab should be run in a controlled environment; it contains vulnerable assets.**
 
 ## Dependencies
 You must download and install the following for this environment to work:
@@ -12,7 +12,7 @@ To create an environment with a Chef Workstation and a Chef Server that controls
 ```
 cd vagrant && make build && make run
 ```
-To run MOSE against the chef workstation:
+### To run MOSE against the chef workstation:
 
 1. Build MOSE using `make build` in the MOSE repo
 2. Generate a payload with MOSE: `./mose -c "touch /tmp/BLA && echo test >> /tmp/BLA" -t chef`
@@ -25,7 +25,7 @@ To run MOSE against the chef workstation:
 	7b. Run ```chef-client```
 8. For this example, you should note that a file has been created in `/tmp` in all of the chef-agent virtual machines, as we specified in step 2.
 
-To run MOSE against the chef server:
+### To run MOSE against the chef server:
 1. Build MOSE using `make build` in the MOSE repo
 2. Generate a payload with MOSE: `./mose -c "touch /tmp/BLA && echo test >> /tmp/BLA" -t chef -l <your local ip address> -ep 9090 -rhost chef-server:10.42.42.10` <br>
 	2a. The exfil listener time can be set with the `-ep` parameter <br>
