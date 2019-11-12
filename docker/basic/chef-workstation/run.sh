@@ -30,8 +30,8 @@ init_workstation(){
   berks install
   berks upload
   cd /root/.chef
-  tar -xvf knife_admin_key.tar.gz; rm *tar* 
-  knife bootstrap chef-agent-1 -u root -P toor --sudo -N chef-agent-1 --run-list 'recipe[hello], recipe[chef-client::config]' --chef-license accept
+  tar -xvf knife_admin_key.tar.gz; rm *tar*
+  knife bootstrap chef-agent-1 -u admin -P passwd -U root -P toor --sudo -N chef-agent-1 --run-list 'recipe[hello], recipe[chef-client::config]' --chef-license accept
 }
 
 add_secret(){
