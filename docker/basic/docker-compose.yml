@@ -2,50 +2,67 @@ version: '3'
 services:
   chef-server:
     build:
-      context: ./chef-server
-      dockerfile: Dockerfile
-    # TODO: Add script for ssh
-    #image: cbuisson/chef-server 
-    hostname: chefserver.demo.com
+      context: .
+      dockerfile: chef-server/Dockerfile
+    hostname: chef-server
     container_name: basic-chef-server
     stdin_open: true
     tty: true
     ports:
+      - "2023:22"
       - "443:443"
     networks:
       basic-chef-net:
         ipv4_address: 172.51.0.2
+    volumes:
+      - chef-content:/etc/chef
+      - chef-logs:/var/log
+    #restart: always
     extra_hosts:
-      - 'chefagent.demo.com:172.51.0.4'
+      - 'chef-workstation:172.51.0.3'
+      - 'chef-agent-1:172.51.0.4'
 
-  chef-agent:
+  chef-agent-1:
     build:
-      context: ./chef-agent
-      dockerfile: Dockerfile
-    hostname: chefagent.demo.com
-    container_name: chef-agent
+      context: .
+      dockerfile: chef-agent/Dockerfile
+    hostname: chef-agent-1
+    container_name: chef-agent-1
     stdin_open: true
     tty: true
+    ports:
+      - "2024:22"
+    depends_on:
+      - chef-server
     networks:
       basic-chef-net:
         ipv4_address: 172.51.0.4
+    #restart: always
     extra_hosts:
-      - 'chefserver.demo.com:172.51.0.2'
+      - 'chef-workstation:172.51.0.3'
+      - 'chef-server:172.51.0.2'
 
   chef-workstation:
     build:
-      context: ./chef-workstation
-      dockerfile: Dockerfile
-    hostname: chefworkstation.demo.com
+      context: .
+      dockerfile: chef-workstation/Dockerfile
+    hostname: chef-workstation
     container_name: basic-chef-workstation
     stdin_open: true
     tty: true
+    ports:
+      - "2022:22"
+    depends_on:
+      - chef-server
     networks:
       basic-chef-net:
         ipv4_address: 172.51.0.3
+    volumes:
+      - chef-content:/root/.chef
+    #restart: always
     extra_hosts:
-      - 'chefagent.demo.com:172.51.0.4'
-      - 'chefserver.demo.com:172.51.0.2'
+      - 'chef-agent-1:172.51.0.4'
+      - 'chef-server:172.51.0.2'
 
 networks:
   basic-chef-net:
@@ -54,3 +71,7 @@ networks:
       driver: default
       config:
         - subnet: 172.51.0.0/24
+
+volumes:
+  chef-content:
+  chef-logs:

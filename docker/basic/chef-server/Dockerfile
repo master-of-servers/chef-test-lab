@@ -1,13 +1,24 @@
-FROM cbuisson/chef-server
+FROM ubuntu:14.04
+MAINTAINER Clement Buisson <clement.buisson@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-      apt-get install -y vim ssh && \
-      echo "root:toor" | chpasswd && \
-      sed -ri 's/^#?PasswordAuthentication\s+.*/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
-      sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
-      sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config && \
-      service ssh start && \
-      rm -rf /var/lib/apt/lists/
+    apt-get install -yq --no-install-recommends wget curl ssh rsync && \
+    mkdir /var/run/sshd && \
+    chmod 0755 /var/run/sshd && \
+    echo "root:toor" | chpasswd && \
+    wget --no-check-certificate --content-disposition "http://www.opscode.com/chef/download-server?p=ubuntu&pv=14.04&m=x86_64&v=12&prerelease=false&nightlies=false" && \
+    dpkg -i chef-server*.deb && \
+    rm chef-server*.deb && \
+    apt-get remove -y wget && \
+    sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config && \
+    sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \
+    rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT /bin/bash
+COPY chef-server/run.sh chef-server/configure_chef.sh /usr/local/bin/
+COPY files/knife.rb /etc/chef/knife.rb
+#COPY files/config.json /root/.berkshelf
+
+VOLUME /var/log
+CMD run.sh ; /usr/sbin/sshd -D

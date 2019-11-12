@@ -10,6 +10,9 @@ RUN apt-get update && \
       sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \
       sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config && \
       service ssh start && \
-      rm -rf /var/lib/apt/lists/
+      rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT /bin/bash
+COPY chef-workstation/run.sh /usr/local/bin/
+COPY files/hello /root/.chef/cookbooks
+
+CMD run.sh; /usr/sbin/sshd -D
