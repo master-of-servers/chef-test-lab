@@ -23,8 +23,10 @@ init_workstation(){
 }
 
 add_secret(){
+  cd /root/.chef
+  rm -rf data_bags
   mkdir data_bags
-  knife vault create secret_vault mysql_pw '{\"user\": \"mysql\", \"password\": \"TheM0stS3cr3T!!!\"}'
+  knife vault create secret_vault mysql_pw '{"user": "mysql", "password": "TheM0stS3cr3T!!!"}'
   knife vault show secret_vault mysql_pw
 }
 
