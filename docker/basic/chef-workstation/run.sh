@@ -1,22 +1,9 @@
 #!/bin/bash
 
-countdown_timer() {
-  hour=0
-  min=0
-  sec=480
-  while [ $hour -ge 0 ]; do
-    while [ $min -ge 0 ]; do
-      while [ $sec -ge 0 ]; do
-        echo -ne "$hour:$min:$sec3[0K\r"
-        let "sec=sec-1"
-        sleep 1
-      done
-      sec=59
-      let "min=min-1"
-    done
-    min=59
-    let "hour=hour-1"
-  done
+go_to_sleep() {
+  echo "Beginning sleep on chef workstation for 8 minutes."
+  sleep 480
+  echo "Ending sleep for chef workstation"
 }
 
 init_workstation(){
@@ -30,8 +17,9 @@ init_workstation(){
   berks install
   berks upload
   cd /root/.chef
-  tar -xvf knife_admin_key.tar.gz; rm *tar*
-  knife bootstrap chef-agent-1 -u admin -P passwd -U root -P toor --sudo -N chef-agent-1 --run-list 'recipe[hello], recipe[chef-client::config]' --chef-license accept
+  knife upload cookbooks
+  #tar -xvf knife_admin_key.tar.gz; rm *tar*
+  knife bootstrap chef-agent-1 -u root -P toor --sudo -N chef-agent-1 --run-list 'recipe[hello], recipe[chef-client::config]'
 }
 
 add_secret(){
@@ -40,6 +28,6 @@ add_secret(){
   knife vault show secret_vault mysql_pw
 }
 
-countdown_timer
+go_to_sleep
 init_workstation
 add_secret

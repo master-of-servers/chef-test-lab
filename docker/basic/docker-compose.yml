@@ -27,7 +27,7 @@ services:
       context: .
       dockerfile: chef-agent/Dockerfile
     hostname: chef-agent-1
-    container_name: chef-agent-1
+    container_name: basic-chef-agent-1
     stdin_open: true
     tty: true
     ports:
@@ -59,7 +59,7 @@ services:
         ipv4_address: 172.51.0.3
     volumes:
       - chef-content:/root/.chef
-    #restart: always
+    restart: always
     extra_hosts:
       - 'chef-agent-1:172.51.0.4'
       - 'chef-server:172.51.0.2'

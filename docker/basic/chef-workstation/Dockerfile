@@ -1,4 +1,4 @@
-FROM chef/chefdk
+FROM chef/chefdk@sha256:d65c2597802d4a7336cd43cb3ed706701fcc9bdde122e53eacdead8b21a13591
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
