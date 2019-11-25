@@ -7,10 +7,10 @@ go_to_sleep() {
 }
 
 init_workstation(){
-  cd /root/.chef
   mkdir -p /root/.chef/cookbooks
+  cd /root/.chef/cookbooks
   knife ssl fetch
-  cd cookbooks
+  mv /hello hello
   knife supermarket download chef-client && tar -xvf chef-client-*; rm *tar*
   cp hello/Berksfile chef-client
   cd chef-client
