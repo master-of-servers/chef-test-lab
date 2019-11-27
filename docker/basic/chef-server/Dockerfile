@@ -1,5 +1,5 @@
 FROM ubuntu:14.04.5
-LABEL "Maintained by Jayson Grace <jayson.e.grace@gmail.com, based on work by Clement Buisson <clement.buisson@gmail.com>"
+LABEL authors="Maintained by Jayson Grace <jayson.e.grace@gmail.com, based on work by Clement Buisson <clement.buisson@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
