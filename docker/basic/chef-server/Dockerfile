@@ -1,9 +1,9 @@
 FROM ubuntu:14.04.5
-MAINTAINER Clement Buisson <clement.buisson@gmail.com>
+LABEL "Maintained by Jayson Grace <jayson.e.grace@gmail.com, based on work by Clement Buisson <clement.buisson@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-    apt-get install -yq wget curl ssh rsync && \
+    apt-get install -yq --no-install-recommends wget curl ssh rsync && \
     mkdir /var/run/sshd && \
     chmod 0755 /var/run/sshd && \
     echo "root:toor" | chpasswd && \
@@ -18,7 +18,6 @@ RUN apt-get update && \
 
 COPY chef-server/run.sh chef-server/configure_chef.sh /usr/local/bin/
 COPY files/knife.rb /etc/chef/knife.rb
-#COPY files/config.json /root/.berkshelf
 
 VOLUME /var/log
 CMD run.sh ; /usr/sbin/sshd -D
