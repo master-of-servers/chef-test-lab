@@ -1,9 +1,9 @@
-FROM ubuntu:14.04
+FROM ubuntu:14.04.5
 MAINTAINER Clement Buisson <clement.buisson@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-    apt-get install -yq --no-install-recommends wget curl ssh rsync && \
+    apt-get install -yq wget curl ssh rsync && \
     mkdir /var/run/sshd && \
     chmod 0755 /var/run/sshd && \
     echo "root:toor" | chpasswd && \
