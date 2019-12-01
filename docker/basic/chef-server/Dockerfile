@@ -9,6 +9,7 @@ RUN apt-get update && \
     mkdir /var/run/sshd && \
     chmod 0755 /var/run/sshd && \
     echo "root:toor" | chpasswd && \
+    # Package from: https://packages.chef.io/files/stable/chef-server/12.19.31/ubuntu/14.04/chef-server-core_12.19.31-1_amd64.deb
     dpkg -i chef-server*.deb && \
     rm chef-server*.deb && \
     apt-get remove -y wget && \
