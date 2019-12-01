@@ -75,3 +75,6 @@ To tear down the test environment, run the following command:
 ```
 make destroy
 ```
+
+## Credits
+The chef server docker container is provided courtesy of this repo: https://github.com/c-buisson/chef-server
