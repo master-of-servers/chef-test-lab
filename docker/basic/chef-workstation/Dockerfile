@@ -6,6 +6,7 @@ COPY chef-workstation/run.sh /usr/local/bin/
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
       apt-get install -y ssh vim iproute2 wget && \
+      mkdir -p /root/.berkshelf && \
       mkdir -p /root/.chef/cookbooks && \
       mkdir -p /root/.chef/data_bags && \
       echo "root:toor" | chpasswd && \
@@ -14,5 +15,7 @@ RUN apt-get update && \
       sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config && \
       service ssh start && \
       rm -rf /var/lib/apt/lists/*
+
+COPY files/config.json /root/.berkshelf
 
 CMD run.sh; /usr/sbin/sshd -D
