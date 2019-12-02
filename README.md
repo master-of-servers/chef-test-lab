@@ -9,7 +9,6 @@ You must download and install the following for this environment to work:
 * [Vagrant](https://www.vagrantup.com/downloads.html)
 * [Docker](https://docs.docker.com/install/)
 * [Docker Compose](https://docs.docker.com/compose/install/)
-* [Python 3](https://www.python.org/downloads/release/python-374/)
 
 ## Vagrant Lab Build Instructions
 To create an environment with a Chef Workstation and a Chef Server that controls multiple agents, run the following command:
