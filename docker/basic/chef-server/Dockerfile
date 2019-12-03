@@ -1,15 +1,13 @@
 FROM ubuntu:14.04.5
 LABEL authors="Maintained by Jayson Grace <jayson.e.grace@gmail.com, based on work by Clement Buisson <clement.buisson@gmail.com>"
 
-COPY files/chef-server-core_12.19.31-1_amd64.deb /chef-server-core_12.19.31-1_amd64.deb
-
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
     apt-get install -yq --no-install-recommends wget curl ssh rsync && \
     mkdir /var/run/sshd && \
     chmod 0755 /var/run/sshd && \
     echo "root:toor" | chpasswd && \
-    # Package from: https://packages.chef.io/files/stable/chef-server/12.19.31/ubuntu/14.04/chef-server-core_12.19.31-1_amd64.deb
+    wget --no-check-certificate --content-disposition https://packages.chef.io/files/stable/chef-server/12.19.31/ubuntu/14.04/chef-server-core_12.19.31-1_amd64.deb && \
     dpkg -i chef-server*.deb && \
     rm chef-server*.deb && \
     apt-get remove -y wget && \
