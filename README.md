@@ -1,5 +1,6 @@
-
 # chef-test-lab
+[![License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/master-of-servers/chef-test-lab/blob/master/LICENSE)
+
 Used to create a test lab that can be used to work with MOSE and Chef.
 
 **Warning, take heed: This lab should be run in a controlled environment; it contains vulnerable assets.**
