@@ -1,0 +1,105 @@
+version: '3'
+services:
+
+  chef-server:
+    build:
+      context: .
+      dockerfile: chef-server/Dockerfile
+    hostname: chef-server
+    container_name: extended-chef-server
+    stdin_open: true
+    tty: true
+    ports:
+      - "2023:22"
+      - "8443:443"
+    networks:
+      extended-chef-net:
+        ipv4_address: 172.66.0.2
+    volumes:
+      - chef-content:/etc/chef
+      - chef-logs:/var/log
+    extra_hosts:
+      - 'chef-workstation:172.66.0.3'
+
+  mariadb:
+    image: bitnami/mariadb:latest
+    hostname: mariadb
+    container_name: extended-mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=TheM0stS3cr3T!!!
+    networks:
+      extended-chef-net:
+        ipv4_address: 172.66.0.5
+  
+  webserver:
+    build:
+      context: .
+      dockerfile: webserver/Dockerfile
+    hostname: webserver
+    container_name: extended-webserver
+    stdin_open: true
+    tty: true
+    ports:
+      - "2026:22"
+      - "8080:80"
+    depends_on:
+      - chef-server
+    networks:
+      extended-chef-net:
+        ipv4_address: 172.66.0.6
+    extra_hosts:
+      - 'devserver:172.66.0.4'
+      - 'chef-workstation:172.66.0.3'
+
+  devsystem:
+    build:
+      context: .
+      dockerfile: devsystem/Dockerfile
+    hostname: devsystem
+    container_name: extended-devsystem
+    stdin_open: true
+    tty: true
+    ports:
+      - "2024:22"
+    depends_on:
+      - chef-server
+    networks:
+      extended-chef-net:
+        ipv4_address: 172.66.0.4
+    extra_hosts:
+      - 'mariadb:172.66.0.5'
+
+  chef-workstation:
+    build:
+      context: .
+      dockerfile: chef-workstation/Dockerfile
+    hostname: chef-workstation
+    container_name: extended-chef-workstation
+    stdin_open: true
+    tty: true
+    ports:
+      - "2022:22"
+    depends_on:
+      - chef-server
+    networks:
+      extended-chef-net:
+        ipv4_address: 172.66.0.3
+    volumes:
+      - chef-content:/root/.chef
+    restart: always
+    extra_hosts:
+      - 'chef-server:172.66.0.2'
+      - 'devsystem:172.66.0.4'
+      - 'webserver:172.66.0.6'
+
+networks:
+  extended-chef-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.66.0.0/24
+
+volumes:
+  chef-content:
+  chef-logs:
