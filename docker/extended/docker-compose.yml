@@ -16,8 +16,8 @@ services:
       extended-chef-net:
         ipv4_address: 172.66.0.2
     volumes:
-      - chef-content:/etc/chef
-      - chef-logs:/var/log
+      - extended-chef-content:/etc/chef
+      - extended-chef-logs:/var/log
     extra_hosts:
       - 'chef-workstation:172.66.0.3'
 
@@ -85,7 +85,7 @@ services:
       extended-chef-net:
         ipv4_address: 172.66.0.3
     volumes:
-      - chef-content:/root/.chef
+      - extended-chef-content:/root/.chef
     restart: always
     extra_hosts:
       - 'chef-server:172.66.0.2'
@@ -101,5 +101,5 @@ networks:
         - subnet: 172.66.0.0/24
 
 volumes:
-  chef-content:
-  chef-logs:
+  extended-chef-content:
+  extended-chef-logs:

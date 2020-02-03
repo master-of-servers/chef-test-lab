@@ -1,8 +1,8 @@
 #!/bin/bash
 
 go_to_sleep() {
-  echo "Beginning sleep on chef workstation for 8 minutes."
-  sleep 480
+  echo "Beginning sleep on chef workstation for 10 minutes."
+  sleep 600
   echo "Ending sleep for chef workstation"
 }
 
