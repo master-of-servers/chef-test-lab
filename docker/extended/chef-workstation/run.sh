@@ -29,7 +29,7 @@ add_secret(){
   cd /root/.chef
   rm -rf data_bags
   mkdir data_bags
-  knife vault create secret_vault mariadb_pw '{"user": "mysql", "password": "TheM0stS3cr3T!!!"}'
+  knife vault create secret_vault mariadb_pw '{"user": "root", "password": "TheM0stS3cr3T!!!"}'
   knife vault show secret_vault mariadb_pw
 }
 
