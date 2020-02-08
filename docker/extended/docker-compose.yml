@@ -48,7 +48,7 @@ services:
       extended-chef-net:
         ipv4_address: 172.66.0.6
     extra_hosts:
-      - 'devserver:172.66.0.4'
+      - 'devsystem:172.66.0.4'
       - 'chef-workstation:172.66.0.3'
 
   devsystem:
