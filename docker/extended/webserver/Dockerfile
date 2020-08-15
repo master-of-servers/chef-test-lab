@@ -26,7 +26,7 @@ RUN apt-get update && \
       rm -rf /var/lib/apt/lists/
 
 RUN cd /var/www/html/ && \
-      # Download pages from bsides.org for us to host
+      # Download pages from bsidessf.org for us to host
       wget \
       --recursive \
       --no-clobber \
