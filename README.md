@@ -1,5 +1,6 @@
 # chef-test-lab
 [![License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/master-of-servers/chef-test-lab/blob/master/LICENSE)
+[![Build Status](https://dev.azure.com/jaysonegrace/chef-test-lab/_apis/build/status/master-of-servers.chef-test-lab?branchName=master)](https://dev.azure.com/jaysonegrace/chef-test-lab/_build/latest?definitionId=36&branchName=master)
 
 Used to create a test lab that can be used to work with MOSE and Chef.
 
