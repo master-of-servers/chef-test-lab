@@ -1,60 +1,61 @@
+---
 trigger:
   branches:
     include:
-    - master
+      - main
 
 schedules:
-- cron: "0 0 * * 0"
-  displayName: Weekly midnight (UTC) build
-  branches:
-    include:
-    - master
-  always: true
+  - cron: "0 0 * * 0"
+    displayName: Weekly midnight (UTC) build
+    branches:
+      include:
+        - main
+    always: true
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 steps:
-- script: | 
-    git clone https://github.com/master-of-servers/chef-test-lab.git
-    cd chef-test-lab && cd docker && cd basic
-    bash create_key.sh
-    docker-compose up -d --build
-    echo "Sleeping for 12 minutes (720 seconds) while waiting for the chef environment to finish building."
-    sleep 720
-    # Pre-work to enroll agent with chef server
-    docker exec -i basic-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks && rm -rf chef-client && knife supermarket download chef-client && tar -xvf chef-client-*; rm *tar*"
-    docker exec -i basic-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks && cp hello/Berksfile chef-client/Berksfile"
-    docker exec -i basic-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks/chef-client && berks install && berks upload"
-    docker exec -i basic-chef-workstation /bin/bash -c "cd /root/.chef/ && knife ssl fetch && knife upload cookbooks"
-    docker exec -i basic-chef-workstation knife vault create secret_vault mysql_pw '{"user": "mysql", "password": "TheM0stS3cr3T!!!"}'
-    # Bootstrap agent with chef server
-    docker exec -i basic-chef-workstation /bin/bash -c "knife bootstrap chef-agent-1 -u root -P toor --sudo -N chef-agent-1 --run-list 'recipe[hello], recipe[chef-client::config]'"
-    docker ps
-  displayName: 'Build and configure the basic chef test environment'
+  - script: |
+      git clone https://github.com/master-of-servers/chef-test-lab.git
+      cd chef-test-lab && cd docker && cd basic
+      bash create_key.sh
+      docker-compose up -d --build
+      echo "Sleeping for 12 minutes (720 seconds) while waiting for the chef environment to finish building."
+      sleep 720
+      # Pre-work to enroll agent with chef server
+      docker exec -i basic-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks && rm -rf chef-client && knife supermarket download chef-client && tar -xvf chef-client-*; rm *tar*"
+      docker exec -i basic-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks && cp hello/Berksfile chef-client/Berksfile"
+      docker exec -i basic-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks/chef-client && berks install && berks upload"
+      docker exec -i basic-chef-workstation /bin/bash -c "cd /root/.chef/ && knife ssl fetch && knife upload cookbooks"
+      docker exec -i basic-chef-workstation knife vault create secret_vault mysql_pw '{"user": "mysql", "password": "TheM0stS3cr3T!!!"}'
+      # Bootstrap agent with chef server
+      docker exec -i basic-chef-workstation /bin/bash -c "knife bootstrap chef-agent-1 -u root -P toor --sudo -N chef-agent-1 --run-list 'recipe[hello], recipe[chef-client::config]'"
+      docker ps
+    displayName: "Build and configure the basic chef test environment"
 
-- script: | 
-    docker-compose down -v
-  displayName: 'Tear down the basic chef test environment'
-  workingDirectory: chef-test-lab/docker/basic
+  - script: |
+      docker-compose down -v
+    displayName: "Tear down the basic chef test environment"
+    workingDirectory: chef-test-lab/docker/basic
 
-- script: |
-    cd chef-test-lab/docker/extended    
-    bash create_key.sh
-    docker-compose up -d --build
-    echo "Sleeping for 12 minutes (720 seconds) while waiting for the chef environment to finish building."
-    sleep 720
-    docker exec -i extended-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks && rm -rf chef-client && knife supermarket download chef-client && tar -xvf chef-client-*; rm *tar*"
-    docker exec -i extended-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks && cp hello/Berksfile chef-client/Berksfile"
-    docker exec -i extended-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks/chef-client && berks install && berks upload"
-    docker exec -i extended-chef-workstation /bin/bash -c "cd /root/.chef/ && knife ssl fetch && knife upload cookbooks"
-    docker exec -i extended-chef-workstation knife vault create secret_vault mysql_pw '{"user": "mysql", "password": "TheM0stS3cr3T!!!"}'
-    # Bootstrap agent with chef server
-    docker exec -i extended-chef-workstation /bin/bash -c "knife bootstrap chef-agent-1 -u root -P toor --sudo -N chef-agent-1 --run-list 'recipe[hello], recipe[chef-client::config]'" 
-    docker ps
-  displayName: 'Build and configure the extended chef test environment'
+  - script: |
+      cd chef-test-lab/docker/extended
+      bash create_key.sh
+      docker-compose up -d --build
+      echo "Sleeping for 12 minutes (720 seconds) while waiting for the chef environment to finish building."
+      sleep 720
+      docker exec -i extended-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks && rm -rf chef-client && knife supermarket download chef-client && tar -xvf chef-client-*; rm *tar*"
+      docker exec -i extended-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks && cp hello/Berksfile chef-client/Berksfile"
+      docker exec -i extended-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks/chef-client && berks install && berks upload"
+      docker exec -i extended-chef-workstation /bin/bash -c "cd /root/.chef/ && knife ssl fetch && knife upload cookbooks"
+      docker exec -i extended-chef-workstation knife vault create secret_vault mysql_pw '{"user": "mysql", "password": "TheM0stS3cr3T!!!"}'
+      # Bootstrap agent with chef server
+      docker exec -i extended-chef-workstation /bin/bash -c "knife bootstrap chef-agent-1 -u root -P toor --sudo -N chef-agent-1 --run-list 'recipe[hello], recipe[chef-client::config]'"
+      docker ps
+    displayName: "Build and configure the extended chef test environment"
 
-- script: | 
-    docker-compose down -v
-  displayName: 'Tear down the extended chef test environment'
-  workingDirectory: chef-test-lab/docker/extended
+  - script: |
+      docker-compose down -v
+    displayName: "Tear down the extended chef test environment"
+    workingDirectory: chef-test-lab/docker/extended

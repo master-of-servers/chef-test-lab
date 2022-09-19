@@ -1,6 +1,6 @@
-version: '3'
+---
+version: "3"
 services:
-
   chef-server:
     build:
       context: .
@@ -19,7 +19,7 @@ services:
       - extended-chef-content:/etc/chef
       - extended-chef-logs:/var/log
     extra_hosts:
-      - 'chef-workstation:172.66.0.3'
+      - "chef-workstation:172.66.0.3"
 
   mariadb:
     image: bitnami/mariadb:latest
@@ -30,7 +30,7 @@ services:
     networks:
       extended-chef-net:
         ipv4_address: 172.66.0.5
-  
+
   webserver:
     build:
       context: .
@@ -48,8 +48,8 @@ services:
       extended-chef-net:
         ipv4_address: 172.66.0.6
     extra_hosts:
-      - 'devsystem:172.66.0.4'
-      - 'chef-workstation:172.66.0.3'
+      - "devsystem:172.66.0.4"
+      - "chef-workstation:172.66.0.3"
 
   devsystem:
     build:
@@ -67,7 +67,7 @@ services:
       extended-chef-net:
         ipv4_address: 172.66.0.4
     extra_hosts:
-      - 'mariadb:172.66.0.5'
+      - "mariadb:172.66.0.5"
 
   chef-workstation:
     build:
@@ -88,9 +88,9 @@ services:
       - extended-chef-content:/root/.chef
     restart: always
     extra_hosts:
-      - 'chef-server:172.66.0.2'
-      - 'devsystem:172.66.0.4'
-      - 'webserver:172.66.0.6'
+      - "chef-server:172.66.0.2"
+      - "devsystem:172.66.0.4"
+      - "webserver:172.66.0.6"
 
 networks:
   extended-chef-net:

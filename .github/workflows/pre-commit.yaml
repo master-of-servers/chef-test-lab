@@ -37,9 +37,6 @@ jobs:
       - name: Compile magefile
         run: mage -d .mage/ -compile ../magefile
 
-      - name: Install dependencies
-        run: ./magefile installDeps
-
       - name: Install, update, and run pre-commit hooks
         run: |
           pip3 install pre-commit

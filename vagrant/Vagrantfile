@@ -14,11 +14,11 @@ Vagrant.configure("2") do |config|
       echo "10.42.42.13 chef-agent-2" | tee -a /etc/hosts
       echo "10.42.42.14 chef-agent-3" | tee -a /etc/hosts
 
-      # Modify sshd to accomodate password auth
+      # Modify sshd to accommodate password auth
       sed -ri 's/^#?PasswordAuthentication\s+.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
       sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config
 
-      wget https://packages.chef.io/files/stable/chef-server/12.19.31/ubuntu/18.04/chef-server-core_12.19.31-1_amd64.deb 
+      wget https://packages.chef.io/files/stable/chef-server/12.19.31/ubuntu/18.04/chef-server-core_12.19.31-1_amd64.deb
       dpkg -i chef-server-core_12.19.31-1_amd64.deb
       chef-server-ctl reconfigure
 
@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
       cd /etc/chef; tar -zcvf knife_admin_key.tar.gz . --warning=no-file-changed
       cp /etc/chef/knife_admin_key.tar.gz /home/vagrant; chown vagrant:vagrant /home/vagrant/knife_admin_key.tar.gz
 
-      # Restart ssh to accomodate password auth
+      # Restart ssh to accommodate password auth
       echo "Restarting ssh service on chef-server"
       service sshd restart
     SHELL
@@ -62,11 +62,11 @@ Vagrant.configure("2") do |config|
       echo "10.42.42.13 chef-agent-2" | tee -a /etc/hosts
       echo "10.42.42.14 chef-agent-3" | tee -a /etc/hosts
 
-      # Modify sshd to accomodate password auth
+      # Modify sshd to accommodate password auth
       sed -ri 's/^#?PasswordAuthentication\s+.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
       sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config
 
-      # Restart ssh to accomodate password auth
+      # Restart ssh to accommodate password auth
       echo "Restarting ssh service on chef-agent-1"
       service sshd restart
 
@@ -85,18 +85,18 @@ Vagrant.configure("2") do |config|
       echo "10.42.42.13 chef-agent-2" | tee -a /etc/hosts
       echo "10.42.42.14 chef-agent-3" | tee -a /etc/hosts
 
-      # Modify sshd to accomodate password auth
+      # Modify sshd to accommodate password auth
       sed -ri 's/^#?PasswordAuthentication\s+.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
       sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config
 
-      # Restart ssh to accomodate password auth
+      # Restart ssh to accommodate password auth
       echo "Restarting ssh service on chef-agent-2"
       service sshd restart
 
       echo "Lab environment has been created!"
     SHELL
   end
-  
+
   config.vm.define :attacker do |attacker|
     attacker.vm.network :private_network, ip: '10.42.42.15'
     attacker.vm.hostname = 'attacker'
@@ -108,11 +108,11 @@ Vagrant.configure("2") do |config|
       echo "10.42.42.13 chef-agent-2" | tee -a /etc/hosts
       echo "10.42.42.14 chef-agent-3" | tee -a /etc/hosts
 
-      # Modify sshd to accomodate password auth
+      # Modify sshd to accommodate password auth
       sed -ri 's/^#?PasswordAuthentication\s+.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
       sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config
 
-      # Restart ssh to accomodate password auth
+      # Restart ssh to accommodate password auth
       echo "Restarting ssh service on attacker"
       service sshd restart
 
@@ -131,11 +131,11 @@ Vagrant.configure("2") do |config|
       echo "10.42.42.13 chef-agent-2" | tee -a /etc/hosts
       echo "10.42.42.14 chef-agent-3" | tee -a /etc/hosts
 
-      # Modify sshd to accomodate password auth
+      # Modify sshd to accommodate password auth
       sed -ri 's/^#?PasswordAuthentication\s+.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
       sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config
 
-      # Restart ssh to accomodate password auth
+      # Restart ssh to accommodate password auth
       echo "Restarting ssh service on chef-agent-3"
       service sshd restart
 
@@ -156,10 +156,10 @@ Vagrant.configure("2") do |config|
       echo "10.42.42.13 chef-agent-2" | tee -a /etc/hosts
       echo "10.42.42.14 chef-agent-3" | tee -a /etc/hosts
 
-      apt update	
-      apt-get install -y unzip make gcc 
+      apt update
+      apt-get install -y unzip make gcc
 
-      # Modify sshd to accomodate password auth
+      # Modify sshd to accommodate password auth
       sed -ri 's/^#?PasswordAuthentication\s+.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
       sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config
 
@@ -174,7 +174,7 @@ Vagrant.configure("2") do |config|
 
       # Create chef workspace
       mkdir -p /root/.chef/{cookbooks,data_bags}
-      
+
       mv /home/vagrant/knife.rb /root/.chef
 
       scp -o StrictHostKeyChecking=no -i /home/vagrant/.ssh/chef_env_rsa vagrant@chef-server:/etc/chef/knife_admin_key.tar.gz /home/vagrant
@@ -189,7 +189,7 @@ Vagrant.configure("2") do |config|
 
       # Show secret
       knife vault show secret_vault mysql_pw
-      
+
       # Move hello cookbook into place
       mv /home/vagrant/hello /root/.chef/cookbooks
       # Upload hello cookbook to chef server
@@ -206,7 +206,7 @@ Vagrant.configure("2") do |config|
       # Bootstrap chef-agent-3
       cd /root/.chef; /usr/bin/knife bootstrap chef-agent-3 -x vagrant -P vagrant --sudo -N chef-agent-3 --run-list 'recipe[hello], recipe[chef-client::config]'
 
-      # Restart ssh to accomodate password auth
+      # Restart ssh to accommodate password auth
       echo "Restarting ssh service on chef-workstation"
       service sshd restart
     SHELL

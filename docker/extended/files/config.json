@@ -1,5 +1,5 @@
 {
   "ssl": {
-      "verify": false
-    }
+    "verify": false
+  }
 }

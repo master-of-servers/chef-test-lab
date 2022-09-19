@@ -1,4 +1,5 @@
-version: '3'
+---
+version: "3"
 services:
   chef-server:
     build:
@@ -17,10 +18,9 @@ services:
     volumes:
       - chef-content:/etc/chef
       - chef-logs:/var/log
-    #restart: always
     extra_hosts:
-      - 'chef-workstation:172.51.0.3'
-      - 'chef-agent-1:172.51.0.4'
+      - "chef-workstation:172.51.0.3"
+      - "chef-agent-1:172.51.0.4"
 
   chef-agent-1:
     build:
@@ -37,10 +37,9 @@ services:
     networks:
       basic-chef-net:
         ipv4_address: 172.51.0.4
-    #restart: always
     extra_hosts:
-      - 'chef-workstation:172.51.0.3'
-      - 'chef-server:172.51.0.2'
+      - "chef-workstation:172.51.0.3"
+      - "chef-server:172.51.0.2"
 
   chef-workstation:
     build:
@@ -61,8 +60,8 @@ services:
       - chef-content:/root/.chef
     restart: always
     extra_hosts:
-      - 'chef-agent-1:172.51.0.4'
-      - 'chef-server:172.51.0.2'
+      - "chef-agent-1:172.51.0.4"
+      - "chef-server:172.51.0.2"
 
 networks:
   basic-chef-net:

@@ -4,15 +4,15 @@
 echo "nginx['enable_non_ssl']=false" > /etc/opscode/chef-server.rb
 
 if [[ -z $SSL_PORT ]]; then
-  echo "nginx['ssl_port']=443" >> /etc/opscode/chef-server.rb
+    echo "nginx['ssl_port']=443" >> /etc/opscode/chef-server.rb
 else
-  echo "nginx['ssl_port']=$SSL_PORT" >> /etc/opscode/chef-server.rb
+    echo "nginx['ssl_port']=$SSL_PORT" >> /etc/opscode/chef-server.rb
 fi
 
 if [[ -z $CONTAINER_NAME ]]; then
-  echo "nginx['server_name']=\"chef-server\"" >> /etc/opscode/chef-server.rb
+    echo "nginx['server_name']=\"chef-server\"" >> /etc/opscode/chef-server.rb
 else
-  echo "nginx['server_name']=\"$CONTAINER_NAME\"" >> /etc/opscode/chef-server.rb
+    echo "nginx['server_name']=\"$CONTAINER_NAME\"" >> /etc/opscode/chef-server.rb
 fi
 
 echo -e "\nRunning: 'chef-server-ctl reconfigure'. This step will take a few minutes..."
@@ -26,28 +26,28 @@ TIMEOUT=60
 return=$(curl -sf ${URL})
 
 if [[ -z "$return" ]]; then
-  echo -e "\nINFO: Chef-Server isn't ready yet!"
-  echo -e "Blocking until <${URL}> responds...\n"
+    echo -e "\nINFO: Chef-Server isn't ready yet!"
+    echo -e "Blocking until <${URL}> responds...\n"
 
-  while [ $CODE -ne 0 ]; do
+    while [ $CODE -ne 0 ]; do
 
-    curl -sf \
-         --connect-timeout 3 \
-         --max-time 5 \
-         --fail \
-         --silent \
-         ${URL}
+        curl -sf \
+            --connect-timeout 3 \
+            --max-time 5 \
+            --fail \
+            --silent \
+            ${URL}
 
-    CODE=$?
+        CODE=$?
 
-    sleep 2
-    echo -n "."
+        sleep 2
+        echo -n "."
 
-    if [ $SECONDS -ge $TIMEOUT ]; then
-      echo "$URL is not available after $SECONDS seconds...stopping the script!"
-      exit 1
-    fi
-  done;
+        if [ $SECONDS -ge $TIMEOUT ]; then
+            echo "$URL is not available after $SECONDS seconds...stopping the script!"
+            exit 1
+        fi
+    done
 fi
 
 echo -e "\n\n$URL is available!\n"
