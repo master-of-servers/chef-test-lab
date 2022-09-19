@@ -1,7 +1,8 @@
 # chef-test-lab
 
 [![License](https://img.shields.io/github/license/master-of-servers/chef-test-lab?label=License&style=flat&color=blue&logo=github)](https://github.com/master-of-servers/chef-test-lab/blob/main/LICENSE)
-[![Build Status](https://dev.azure.com/jaysonegrace/chef-test-lab/_apis/build/status/master-of-servers.chef-test-lab?branchName=main)](https://dev.azure.com/jaysonegrace/chef-test-lab/_build/latest?definitionId=36&branchName=main)
+[![Pre-commit](https://github.com/master-of-servers/chef-test-lab/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/master-of-servers/chef-test-lab/actions/workflows/pre-commit.yaml)
+[![Test chef-test-lab](https://github.com/master-of-servers/chef-test-lab/actions/workflows/tests.yaml/badge.svg)](https://github.com/master-of-servers/chef-test-lab/actions/workflows/tests.yaml)
 
 Used to create a test lab that can be used to work with MOSE and Chef.
 

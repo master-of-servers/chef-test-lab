@@ -43,6 +43,7 @@ jobs:
           docker-compose up -d --build
           echo "Sleeping for 12 minutes (720 seconds) while waiting for the chef environment to finish building."
           sleep 720
+          docker exec -i extended-chef-workstation /bin/bash -c "mkdir -p /root/.chef/data_bags"
           docker exec -i extended-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks && rm -rf chef-client && knife supermarket download chef-client && tar -xvf chef-client-*; rm *tar*"
           docker exec -i extended-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks && cp hello/Berksfile chef-client/Berksfile"
           docker exec -i extended-chef-workstation /bin/bash -c "cd /root/.chef/cookbooks/chef-client && berks install && berks upload"
