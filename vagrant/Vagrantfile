@@ -96,6 +96,29 @@ Vagrant.configure("2") do |config|
       echo "Lab environment has been created!"
     SHELL
   end
+  
+  config.vm.define :attacker do |attacker|
+    attacker.vm.network :private_network, ip: '10.42.42.15'
+    attacker.vm.hostname = 'attacker'
+    attacker.vm.provision "shell", inline: <<-SHELL
+      # Add all applicable hosts
+      echo "10.42.42.10 chef-server" | tee -a /etc/hosts
+      echo "10.42.42.11 chef-workstation" | tee -a /etc/hosts
+      echo "10.42.42.12 chef-agent-1" | tee -a /etc/hosts
+      echo "10.42.42.13 chef-agent-2" | tee -a /etc/hosts
+      echo "10.42.42.14 chef-agent-3" | tee -a /etc/hosts
+
+      # Modify sshd to accomodate password auth
+      sed -ri 's/^#?PasswordAuthentication\s+.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+      sed -ri 's/UsePAM\syes/#UsePAM yes/g' /etc/ssh/sshd_config
+
+      # Restart ssh to accomodate password auth
+      echo "Restarting ssh service on attacker"
+      service sshd restart
+
+      echo "Attacker has been created!"
+    SHELL
+  end
 
   config.vm.define :chef_agent_3 do |chef_agent_3|
     chef_agent_3.vm.network :private_network, ip: '10.42.42.14'
