@@ -5,7 +5,6 @@ go 1.18
 require (
 	github.com/fatih/color v1.13.0
 	github.com/l50/goutils v1.1.3
-	github.com/magefile/mage v1.14.0
 )
 
 require (
@@ -26,6 +25,7 @@ require (
 	github.com/itchyny/timefmt-go v0.1.4 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
+	github.com/magefile/mage v1.14.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
