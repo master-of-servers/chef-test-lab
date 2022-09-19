@@ -1,4 +1,4 @@
-FROM chef-boneyard/chefdk@sha256:d65c2597802d4a7336cd43cb3ed706701fcc9bdde122e53eacdead8b21a13591
+FROM chef/chefworkstation
 
 COPY files/hello/ /hello/
 COPY chef-workstation/run.sh /usr/local/bin/
